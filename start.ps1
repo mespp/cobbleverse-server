@@ -10,6 +10,17 @@ if (-not $RepoRoot) {
 }
 $ReadmePath = Join-Path -Path $RepoRoot -ChildPath "README.md"
 
+# sync
+Write-Host "Syncing server" -ForegroundColor Yellow
+try {
+    Push-Location $RepoRoot
+    git pull origin main --rebase 
+    Pop-Location
+} catch {
+    Write-Host "Error. GitHub not synced." -ForegroundColor Red
+}
+
+# update github status
 function Update-GitHubStatus($status) {
     $Fecha = Get-Date -Format "dd/MM/yyyy HH:mm"
     
