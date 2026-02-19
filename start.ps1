@@ -13,20 +13,26 @@ $ReadmePath = Join-Path -Path $RepoRoot -ChildPath "README.md"
 function Update-GitHubStatus($status) {
     $Fecha = Get-Date -Format "dd/MM/yyyy HH:mm"
     
-    # Usamos IF tradicional en lugar de ? para evitar errores
     if ($status -eq "Online") {
-        $msg = "# SERVER ONLINE"
+        $msg = "# SERVER ONLINE: $Fecha"
+        $gitTarget = "README.md" 
     } else {
-        $msg = "# SERVER OFFLINE"
+        $msg = "# SERVER OFFLINE: $Fecha"
+        $gitTarget = "."
     }
     
     Set-Content -Path $ReadmePath -Value $msg -Encoding utf8
     
-    Push-Location $RepoRoot
-    git add .
-    git commit -m "Status: Server $status. Copy $Fecha" --allow-empty
-    git push origin main
-    Pop-Location
+    try {
+        Push-Location $RepoRoot
+        git add $gitTarget
+        git commit -m "Status: Server $status ($Fecha)" --allow-empty
+        git push origin main
+        Pop-Location
+        Write-Host "GitHub actualizado ($status)" -ForegroundColor Green
+    } catch {
+        Write-Host "Error en Git al ponerlo $status" -ForegroundColor Yellow
+    }
 }
 
 try {
