@@ -17,6 +17,7 @@ function Update-GitHubStatus($status) {
         $msg = "# SERVER ONLINE: $Fecha"
         $gitTarget = "README.md" 
     } else {
+        $status = "Offline" 
         $msg = "# SERVER OFFLINE: $Fecha"
         $gitTarget = "."
     }
