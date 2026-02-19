@@ -14,11 +14,11 @@ function Update-GitHubStatus($status) {
     $Fecha = Get-Date -Format "dd/MM/yyyy HH:mm"
     
     if ($status -eq "Online") {
-        $msg = "# SERVER ONLINE: $Fecha"
+        $msg = "# SERVER ONLINE"
         $gitTarget = "README.md" 
     } else {
         $status = "Offline" 
-        $msg = "# SERVER OFFLINE: $Fecha"
+        $msg = "# SERVER OFFLINE"
         $gitTarget = "."
     }
     
@@ -30,9 +30,9 @@ function Update-GitHubStatus($status) {
         git commit -m "Status: Server $status ($Fecha)" --allow-empty
         git push origin main
         Pop-Location
-        Write-Host "GitHub actualizado ($status)" -ForegroundColor Green
+        Write-Host "GitHub updated ($status)" -ForegroundColor Green
     } catch {
-        Write-Host "Error en Git al ponerlo $status" -ForegroundColor Yellow
+        Write-Host "Error $status" -ForegroundColor Yellow
     }
 }
 
