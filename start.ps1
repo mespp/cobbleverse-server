@@ -86,9 +86,12 @@ try {
     $process = Start-Process -FilePath "cmd.exe" -ArgumentList "/c start.bat" -Wait -PassThru
 }
 finally {
+    # close playit.exe
+    Stop-Process -Name "playit" -ErrorAction SilentlyContinue
+
     # backup to github
-    Write-Host "Cierre detectado. Realizando backup final en GitHub..." -ForegroundColor Magenta
+    Write-Host "Backing up to GitHub..." -ForegroundColor Magenta
     Update-GitHubStatus "Offline"
-    Write-Host "Backup completado." -ForegroundColor Green
+    Write-Host "Backup completed." -ForegroundColor Green
     Start-Sleep -Seconds 2
 }
